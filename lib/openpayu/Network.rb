@@ -1,4 +1,4 @@
-require 'OpenSSL'
+require 'openssl'
 require 'net/http'
 require 'net/https'
 require 'cgi'

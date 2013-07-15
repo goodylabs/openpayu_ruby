@@ -18,7 +18,7 @@ module OpenPayU
 # Class representing process of communication between client service and PayU
 # used to store the request, response, and some other very useful data.
 class Result
-		attr_accessor :status, :error, :success, :request, :response, :sessionId, :message, :countryCode, :reqId
+		attr_accessor :status, :error, :success, :request, :response, :sessionId, :message, :countryCode, :reqId, :respHash
 	def initialize 
 		@status = ''		#---Hash
 		@error = ''			#---String
@@ -29,6 +29,7 @@ class Result
 		@message = ''		#---String
 		@countryCode = ''	#---String
 		@reqId = ''			#---String
+		@respHash = {}
 	end
 end #OpenPayU::Result
 end

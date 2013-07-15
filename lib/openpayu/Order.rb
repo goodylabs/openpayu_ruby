@@ -40,6 +40,7 @@ class Order
 		result.error = status["StatusCode"]
 		result.request = xml
 		result.response = response
+		result.respHash = hashData
 		if (status["StatusCode"] == "OPENPAYU_SUCCESS") then 
 			result.success = true
 		else
@@ -124,6 +125,7 @@ class Order
 				result.success = false
 			end
 			result.response = response	
+			result.respHash = hashData
 			return result	
 	end
 
@@ -153,6 +155,7 @@ class Order
 				result.success = false
 			end
 			result.response = response
+			result.respHash = hashData
 			return result
 	end
 
@@ -181,6 +184,7 @@ class Order
 			end 
 			result.request = xml
 			result.response = response
+			result.respHash = hashData
 			return result
 	end
 

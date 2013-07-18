@@ -59,7 +59,7 @@ class Order
 			msg = hashData['OpenPayU']['OrderDomainRequest']
 		
 			if msg['OrderNotifyRequest']!=nil then
-					return OpenPayU::Order.consumeNotification(xml)
+					return OpenPayU::Order.consumeNotificationData(xml, hashData)
 			elsif msg['ShippingCostRetrieveRequest']!=nil then
 					return OpenPayU::Order.consumeShippingCostRetrieveRequest(hashData)
 			else
@@ -75,6 +75,13 @@ class Order
 	def self.consumeNotification(xml)
 			hashData = OpenPayU.makeMeHashTable(xml, 'XML')
 			hashData = hashData[1]
+			return OpenPayU::Order.consumeNotificationData(xml, hashData)
+	end
+
+  ## method building a response for PayU, returns OpenPayU_Result object.
+  ##  IN: Hash
+  ##  OUT: OpenPayU::Result
+	def self.consumeNotificationData(xml, hashData)
 			reqId = hashData['OpenPayU']['OrderDomainRequest']['OrderNotifyRequest']['ReqId']
 			sessionId = hashData['OpenPayU']['OrderDomainRequest']['OrderNotifyRequest']['SessionId']
 			rsp = OpenPayU.buildOrderNotifyResponse(reqId)
@@ -85,7 +92,6 @@ class Order
 			result.sessionId = sessionId
 			result.message = 'OrderNotifyRequest'
 			return result
-		
 	end
 
 	## method prepares an OpenPayU_Result object to fill with shipping data on the POS side

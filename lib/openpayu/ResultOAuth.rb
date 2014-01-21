@@ -32,12 +32,7 @@ class ResultOAuth
 	## method parsing json string and supplementing attributes with data
 	##  IN: String
 	def evalJson(str)
-		str.gsub!("\": ","\" => ")
-		begin
-			str = eval str
-		rescue SyntaxError
-			print "unexpected data in json response"
-		end
+	  str = JSON.parse(str)
 
 		if str["access_token"]!=nil then @accessToken=str["access_token"] end
 		if str["payu_user_email"]!=nil then @payuUserEmail = str["payu_user_email"] end

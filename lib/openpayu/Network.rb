@@ -32,6 +32,7 @@ class Network
 		payuService = Net::HTTP.new(OpenPayU::Configuration.serviceDomain, 443)
 		payuService.use_ssl = true
 		payuService.verify_mode = OpenSSL::SSL::VERIFY_NONE 
+#		payuService.set_debug_output $stderr
 		response = payuService.post(urlPath, "#{doc}", headers)
 		return response.body
 	end
@@ -43,7 +44,8 @@ class Network
 	def	self.sendData(doc, urlPath) 
 		payuService = Net::HTTP.new(OpenPayU::Configuration.serviceDomain, 443)
 		payuService.use_ssl = true
-		payuService.verify_mode = OpenSSL::SSL::VERIFY_NONE 
+		payuService.verify_mode = OpenSSL::SSL::VERIFY_NONE
+#		payuService.set_debug_output $stderr 
 		response = payuService.post(urlPath, "#{doc}")
 		return response.body
 	end
@@ -59,12 +61,10 @@ class Network
 		elsif algorithm == "SHA256" then
 			shortDoc = OpenSSL::Digest.hexdigest("sha256", doc+signatureKey.to_s)
 		end
+		signature = "sender=#{merchantPosId};signature=#{shortDoc};algorithm=#{algorithm};content=DOCUMENT"
 		headers = {
-			"OpenPayu-Signature: sender" => merchantPosId.to_s,
-			"signature" => shortDoc,
-			"algorithm" => algorithm,
-			"content" => "DOCUMENT"
-			}
+			"OpenPayu-Signature" => signature
+	  }
 		toSend = CGI::escape("#{doc}")
 		return OpenPayU::Network.sendDataAuth("DOCUMENT="+toSend, urlPath, headers)
 	end

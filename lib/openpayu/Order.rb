@@ -27,7 +27,7 @@ class Order
 	##  IN: Hash
 	##  OUT: OpenPayU::Result
 	def self.create(order)
-		OpenPayU::Configuration.environment()
+		OpenPayU::Configuration.environment() if OpenPayU::Configuration.serviceDomain.nil?
 		xml = OpenPayU.buildOrderCreateRequest(order)
 		merchantPosId = OpenPayU::Configuration.merchantPosId
 		signatureKey = OpenPayU::Configuration.signatureKey
